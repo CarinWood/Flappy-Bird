@@ -18,6 +18,9 @@ class PlayScene extends Phaser.Scene {
                 this.yPositionLowerPipe = Phaser.Math.Between(355, 520);
                 this.flapVelocity = 300;
 
+                this.score = 0;
+                this.scoreText = '';
+
 
             }
 
@@ -33,35 +36,51 @@ class PlayScene extends Phaser.Scene {
             
             //Render the bird
             this.bird = this.physics.add.sprite(this.config.startPosition.x, this.config.startPosition.y, 'bird').setOrigin(0);
-            this.bird.body.gravity.y = 400;
+            this.bird.body.gravity.y = 600;
+
+            this.scoreText = this.add.text(20, 20, 'Score: ' + this.score, {fontSize: '22px'});
+            this.scoreText.depth = 1;
+       
+           
 
             //Render all pipes:
             this.pipes = this.physics.add.group();
-            this.upperPipe1 = this.pipes.create(this.pipeHorizontalDistance, this.pipeVerticalPosition, 'pipe').setOrigin(0.1);
+            this.upperPipe1 = this.pipes.create(this.pipeHorizontalDistance, this.pipeVerticalPosition, 'pipe')
+            .setImmovable(true)
+            .setOrigin(0.1);
             this.upperPipe1.flipY = true;
-            this.lowerPipe1 = this.pipes.create(this.upperPipe1.x, this.yPositionLowerPipe, 'pipe').setOrigin(0.1);
-            this.upperPipe2 = this.pipes.create(this.pipeHorizontalDistance*2, this.pipeVerticalPosition, 'pipe').setOrigin(0.1);
+            this.lowerPipe1 = this.pipes.create(this.upperPipe1.x, this.yPositionLowerPipe, 'pipe')
+            .setImmovable(true)
+            .setOrigin(0.1);
+            this.upperPipe2 = this.pipes.create(this.pipeHorizontalDistance*2, this.pipeVerticalPosition, 'pipe')
+            .setImmovable(true)
+            .setOrigin(0.1);
             this.upperPipe2.flipY = true;
-            this.lowerPipe2 = this.pipes.create(800, this.yPositionLowerPipe, 'pipe').setOrigin(0.1);
+            this.lowerPipe2 = this.pipes.create(800, this.yPositionLowerPipe, 'pipe')
+            .setImmovable(true)
+            .setOrigin(0.1);
  
             //user input events:
             this.input.on('pointerdown', this.flap, this)
             this.input.keyboard.on('keydown_SPACE', this.flap, this)
+
+            this.createColliders();
   
 
         }
 
         flap() {
             console.log("You pressed the mouse")
-            this.bird.body.velocity.y = -300;
+            this.bird.body.velocity.y = -310;
           }
 
        
 
         update() {
             if(this.bird.y < -30 || this.bird.y > 600) {
-                this.restartBirdPosition();
+                this.gameOver();
             }
+
 
             this.upperPipe1.setVelocityX(-200);
 
@@ -89,9 +108,16 @@ class PlayScene extends Phaser.Scene {
 
         }
 
-        restartBirdPosition() {
-            this.bird.x = 80;
-            this.bird.y = 300;
+        gameOver() {
+            this.physics.pause();
+
+            this.time.addEvent({
+                delay: 1000,
+                callback: () => {
+                    this.scene.restart();
+                },
+                loop: false,
+            })
           }
 
      
@@ -99,12 +125,24 @@ class PlayScene extends Phaser.Scene {
         resetUpperPipe(pipe) {
             pipe.y = Phaser.Math.Between(-10, -120);
             pipe.x = 810;
+            this.increaseScore();
          }
          
          resetLowerPipe(pipe) {
            pipe.y = Phaser.Math.Between(355, 520)
            pipe.x = 810;
+
          }
+
+         createColliders() {
+            this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
+         }
+
+         increaseScore() {
+            this.score++;
+            this.scoreText.setText('Score: ' + this.score);
+         }
+
 }
 
 export default PlayScene;
