@@ -15,9 +15,9 @@ class PlayScene extends Phaser.Scene {
 
                 this.pipeHorizontalDistance = 400;
                 this.pipeVerticalPosition = Phaser.Math.Between(-3, -110);
-                this.pipeVerticalDistanceRange = [150, 200]
                 this.yPositionLowerPipe = Phaser.Math.Between(355, 520);
                 this.flapVelocity = 300;
+                this.currentDifficulty;
 
                 this.score = 0;
                 this.scoreText = '';
@@ -96,23 +96,6 @@ class PlayScene extends Phaser.Scene {
             this.createColliders();
 
             this.currentDifficulty = 'easy';
-            this.difficulties = {
-                'easy': {
-                    pipeHorizontalDistance: [300, 350],
-                    pipeVerticalDistanceRange: [150, 200],
-                  
-                },
-
-                'normal': {
-                    pipeHorizontalDistance: [300, 350],
-                    pipeVerticalDistanceRange: [140, 190],  
-                },
-
-                'difficult': {
-                    pipeHorizontalDistance: [250, 310],
-                    pipeVerticalDistanceRange: [120, 170],
-                },
-            }
   
 
         }
@@ -130,25 +113,45 @@ class PlayScene extends Phaser.Scene {
             }
 
 
-            this.upperPipe1.setVelocityX(-200);
+            if (this.currentDifficulty === 'easy') {
+                this.upperPipe1.setVelocityX(-200);
+                this.upperPipe2.setVelocityX(-200);
+                this.lowerPipe1.setVelocityX(-200);
+                this.lowerPipe2.setVelocityX(-200);
+            }
+            else if (this.currentDifficulty === 'normal') {
+                this.upperPipe1.setVelocityX(-300);
+                this.upperPipe2.setVelocityX(-300);
+                this.lowerPipe1.setVelocityX(-300);
+                this.lowerPipe2.setVelocityX(-300);
+            } 
+            else if (this.currentDifficulty === 'hard') {
+                this.upperPipe1.setVelocityX(-400);
+                this.upperPipe2.setVelocityX(-400);
+                this.lowerPipe1.setVelocityX(-400);
+                this.lowerPipe2.setVelocityX(-400);
+            }
+
+               
+
 
             if(this.upperPipe1.x < -30) {
                 this.resetUpperPipe(this.upperPipe1);
             }
 
-            this.upperPipe2.setVelocityX(-200);
+
   
             if(this.upperPipe2.x < -30) {
               this.resetUpperPipe(this.upperPipe2);
             }
 
-            this.lowerPipe1.setVelocityX(-200);
+       
             if(this.lowerPipe1.x < -30) {
               this.resetLowerPipe(this.lowerPipe1);
             }
 
                
-            this.lowerPipe2.setVelocityX(-200);
+            
 
             if(this.lowerPipe2.x < -30) {
                this.resetLowerPipe(this.lowerPipe2);
@@ -221,6 +224,15 @@ class PlayScene extends Phaser.Scene {
          increaseScore() {
             this.score++;
             this.scoreText.setText('Score: ' + this.score);
+            this.increaseDifficulty();
+         }
+
+         increaseDifficulty() {
+            if(this.score === 2) {
+                this.currentDifficulty = 'normal';
+            } else if (this.score == 5) {
+                this.currentDifficulty = 'hard';
+            }
          }
 
 }
