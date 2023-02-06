@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import PlayScene from './PlayScene';
+import ScoreScene from './ScoreScene';
 
 class MenuScene extends Phaser.Scene {
     constructor(config) {
@@ -59,6 +60,15 @@ class MenuScene extends Phaser.Scene {
         playText.on('pointerdown', () => {
                 this.scene.stop();
                 this.scene.start('PlayScene');
+        })
+      
+        scoreText.on('pointerdown', () => {
+                this.scene.stop();
+                this.scene.start('ScoreScene');
+        })
+
+        exitText.on('pointerdown', () => {
+            this.game.destroy(true);
         })
     }
 
