@@ -16,7 +16,7 @@ class ScoreScene extends Phaser.Scene {
         create() {
             this.add.image(0, 0, 'sky').setOrigin(0,0);
             const backBtn = this.add.image(30, 30, 'back')
-            .setScale(2)
+            .setScale(1.8)
             .setInteractive();
             
 

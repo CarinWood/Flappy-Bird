@@ -3,7 +3,6 @@ import Phaser from "phaser";
 import PlayScene from "./scenes/PlayScene";
 import MenuScene from "./scenes/MenuScene";
 import ScoreScene from "./scenes/ScoreScene";
-import PauseScene from "./scenes/PauseScene";
 
 
 const WIDTH = 800;
@@ -29,7 +28,7 @@ const config = {
  
     }
   },
-  scene: [new MenuScene(SHARED_CONFIG), new PlayScene(SHARED_CONFIG), new ScoreScene(SHARED_CONFIG), new PauseScene(SHARED_CONFIG)]
+  scene: [new MenuScene(SHARED_CONFIG), new PlayScene(SHARED_CONFIG), new ScoreScene(SHARED_CONFIG)]
 };
 
 new Phaser.Game(config);

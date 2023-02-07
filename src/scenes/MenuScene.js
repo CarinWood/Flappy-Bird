@@ -17,20 +17,32 @@ class MenuScene extends Phaser.Scene {
 
     preload() {
         this.load.image('sky', '../assets/sky.png');
+        this.load.image('pipe', '../../assets/pipe-green.png')
     }
  
 
     create() {
         this.add.image(0, 0, 'sky').setOrigin(0,0);
-        const playText = this.add.text(this.middleX, 200, 'Play', 
+        this.pipe1 = this.add.image(110, 50, 'pipe');
+        this.pipe1.flipY = true;
+
+        this.pipe2 = this.add.image(700, 550, 'pipe');
+        this.pipe2.angle = -90;
+        this.pipe2.flipX = true;
+       
+
+        const title = this.add.text(this.middleX, 150, 'Flappy Bird',{fontSize: '42px', fill: '#FFF'}).setOrigin(0.5, 1)
+        const subtext = this.add.text(this.middleX, 190, 'by Carin Wood',{fontSize: '18px', fill: '#FFF'}).setOrigin(0.5, 1)
+
+        const playText = this.add.text(this.middleX, 300, 'Play', 
         {fontSize: '32px', fill: '#FFF'})
         .setOrigin(0.5, 1)
         .setInteractive();
-        const scoreText = this.add.text(this.middleX, 250, 'Score', {fontSize: '32px', fill: '#FFF'})
+        const scoreText = this.add.text(this.middleX, 350, 'Score', {fontSize: '32px', fill: '#FFF'})
         .setOrigin(0.5, 1)
         .setInteractive();
         
-        const exitText = this.add.text(this.middleX, 300, 'Exit', {fontSize: '32px', fill: '#FFF'})
+        const exitText = this.add.text(this.middleX, 400, 'Exit', {fontSize: '32px', fill: '#FFF'})
         .setOrigin(0.5, 1)
         .setInteractive();
     
