@@ -21,7 +21,7 @@ class PlayScene extends Phaser.Scene {
                 this.input;
 
                 this.pipeHorizontalDistance = 400;
-                this.pipeVerticalPosition = Phaser.Math.Between(-3, -110);
+                this.pipeVerticalPosition = Phaser.Math.Between(-119, -10);
                 this.yPositionLowerPipe = Phaser.Math.Between(355, 500);
                 this.flapVelocity = 300;
                 this.currentDifficulty;
@@ -64,7 +64,7 @@ class PlayScene extends Phaser.Scene {
 
             //Render the bird
             this.bird = this.physics.add.sprite(this.config.startPosition.x, this.config.startPosition.y, 'bird').setScale(1.5);
-            this.bird.body.gravity.y = 650;
+            this.bird.body.gravity.y = 660;
 
             this.anims.create({
                 key: 'fly',
@@ -120,7 +120,7 @@ class PlayScene extends Phaser.Scene {
         }
 
         flap() {
-            this.bird.body.velocity.y = -250;
+            this.bird.body.velocity.y = -220;
           }
 
        
@@ -148,6 +148,12 @@ class PlayScene extends Phaser.Scene {
                 this.upperPipe2.setVelocityX(-400);
                 this.lowerPipe1.setVelocityX(-400);
                 this.lowerPipe2.setVelocityX(-400);
+            }
+            else if (this.currentDifficulty == 'extraHard') {
+                this.upperPipe1.setVelocityX(-500);
+                this.upperPipe2.setVelocityX(-500);
+                this.lowerPipe1.setVelocityX(-500);
+                this.lowerPipe2.setVelocityX(-500);
             }
 
                
@@ -225,7 +231,7 @@ class PlayScene extends Phaser.Scene {
      
 
         resetUpperPipe(pipe) {
-            pipe.y = Phaser.Math.Between(-1, -110);
+            pipe.y = Phaser.Math.Between(-110, -10);
             pipe.x = 810;
             this.increaseScore();
          }
@@ -250,9 +256,11 @@ class PlayScene extends Phaser.Scene {
          increaseDifficulty() {
             if(this.score === 10) {
                 this.currentDifficulty = 'normal';
-            } else if (this.score == 20) {
+            } else if (this.score === 20) {
                 this.currentDifficulty = 'hard';
-            } 
+            } else if (this.score === 30) {
+                this.currentDifficulty = 'extraHard'
+            }
          }
 
 }
